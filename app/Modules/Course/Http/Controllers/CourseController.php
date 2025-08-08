@@ -4,16 +4,20 @@ namespace App\Modules\Course\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Modules\Course\Domain\Models\Course;
+use App\Modules\Course\Services\CourseService;
 use Illuminate\Http\Request;
 
 class CourseController extends Controller
 {
+    public function __construct(
+        private CourseService $courseService
+    ) {}
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $courses = Course::with('teacher')->paginate(15);
+        $courses = $this->courseService->getAllCourses();
         
         return response()->json([
             'data' => $courses->items(),
@@ -37,8 +41,7 @@ class CourseController extends Controller
             'teacher_id' => 'required|exists:users,id',
         ]);
 
-        $course = Course::create($validated);
-        $course->load('teacher');
+        $course = $this->courseService->createCourse($validated);
 
         return response()->json(['data' => $course], 201);
     }
@@ -48,7 +51,7 @@ class CourseController extends Controller
      */
     public function show(Course $course)
     {
-        $course->load('teacher', 'sessions');
+        $course = $this->courseService->getCourseById($course->id);
         
         return response()->json(['data' => $course]);
     }
@@ -64,8 +67,7 @@ class CourseController extends Controller
             'teacher_id' => 'required|exists:users,id',
         ]);
 
-        $course->update($validated);
-        $course->load('teacher');
+        $course = $this->courseService->updateCourse($course, $validated);
 
         return response()->json(['data' => $course]);
     }
@@ -75,7 +77,7 @@ class CourseController extends Controller
      */
     public function destroy(Course $course)
     {
-        $course->delete();
+        $this->courseService->deleteCourse($course);
         
         return response()->json(null, 204);
     }
