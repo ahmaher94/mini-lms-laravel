@@ -9,7 +9,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Session extends Model
 {
-        use HasFactory;
+    use HasFactory;
+
+    protected $table = 'course_session';
 
     protected $fillable = [
         'course_id',

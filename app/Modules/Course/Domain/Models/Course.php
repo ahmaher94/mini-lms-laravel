@@ -2,6 +2,7 @@
 
 namespace App\Modules\Course\Domain\Models;
 
+use App\Modules\Course\Database\factories\CourseFactory;
 use App\Modules\Session\Domain\Models\Session;
 use App\Modules\User\Domain\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,7 +13,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Course extends Model
 {
-        use HasFactory;
+    use HasFactory;
+
+    protected static function newFactory()
+    {
+        return CourseFactory::new();
+    }
 
     protected $fillable = [
         'title',

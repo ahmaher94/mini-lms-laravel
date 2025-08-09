@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories;
+namespace App\Modules\Course\Database\factories;
 
 use App\Modules\Course\Domain\Models\Course;
 use App\Modules\User\Domain\Models\User;
