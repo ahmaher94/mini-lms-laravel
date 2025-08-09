@@ -4,6 +4,8 @@ namespace App\Modules\Course\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Modules\Course\Domain\Models\Course;
+use App\Modules\Course\Http\Requests\CourseStoreRequest;
+use App\Modules\Course\Http\Requests\CourseUpdateRequest;
 use App\Modules\Course\Services\CourseService;
 use Illuminate\Http\Request;
 
@@ -33,15 +35,9 @@ class CourseController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CourseStoreRequest $request)
     {
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'teacher_id' => 'required|exists:users,id',
-        ]);
-
-        $course = $this->courseService->createCourse($validated);
+        $course = $this->courseService->createCourse($request->validated());
 
         return response()->json(['data' => $course], 201);
     }
@@ -59,15 +55,9 @@ class CourseController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Course $course)
+    public function update(CourseUpdateRequest $request, Course $course)
     {
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'teacher_id' => 'required|exists:users,id',
-        ]);
-
-        $course = $this->courseService->updateCourse($course, $validated);
+        $course = $this->courseService->updateCourse($course, $request->validated());
 
         return response()->json(['data' => $course]);
     }
