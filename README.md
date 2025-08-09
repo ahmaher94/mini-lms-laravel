@@ -28,6 +28,14 @@ app/Modules/<ModuleName>/
 └── Database/           # Module-specific migrations/seeders/factories
 ```
 
+## Key Features
+
+-   Dockerized Laravel setup with MySQL and Redis with seeded data
+-   Complete CRUD operations for Courses with role-based access
+-   Clean architecture using Service/Repository pattern
+-   RESTful API with Laravel Sanctum authentication
+-   Feature test for course operations
+
 ## Technology Stack
 
 -   **Backend Framework:** Laravel 12.x
@@ -135,7 +143,35 @@ app/Modules/<ModuleName>/
     docker-compose exec app php artisan test
     ```
 
-## API Documentation
+## Seeded User Credentials
 
--   Complete API documentation is available:
+After running migrations with seeds, you can use these test credentials:
+
+| Role        | Email               | Password   |
+| ----------- | ------------------- | ---------- |
+| **Admin**   | `admin@gmail.com`   | `password` |
+| **Teacher** | `teacher@gmail.com` | `password` |
+| **Student** | `student@gmail.com` | `password` |
+
+### API Usage
+
+-   **Login endpoint:** `POST /api/v1/login`
+
+    Example request body:
+
+    ```json
+    {
+        "email": "teacher@gmail.com",
+        "password": "password"
+    }
+    ```
+
+## Postman Collection
+
+For easier API testing, a Postman collection is included in the repository with:
+
+-   Pre-configured requests for all endpoints
+-   Environment variables for base URL and authentication tokens
+-   Test credentials already set up for quick testing
+
     -   **Postman Collection:** [`postman-collection.json`](./postman_collection.json) - Ready-to-import collection with all endpoints
