@@ -28,6 +28,12 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('password'),
         ]);
 
+        $student = User::factory()->student()->create([
+            'name' => 'Student',
+            'email' => 'student@gmail.com',
+            'password' => bcrypt('password'),
+        ]);
+
         Course::factory(20)->create([
             'teacher_id' => $teacher->id,
         ]);
